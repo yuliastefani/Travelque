@@ -2,6 +2,7 @@ package com.example.travelque.Database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.travelque.Models.User;
@@ -17,12 +18,12 @@ public class UserHelper {
         this.userContext = userContext;
     }
 
-    public void open() {
+    public void open() throws SQLException {
         dbHelper = new DatabaseHelper(userContext);
         db = dbHelper.getWritableDatabase();
     }
 
-    public void close() {
+    public void close() throws SQLException {
         dbHelper.close();
     }
 
@@ -37,6 +38,9 @@ public class UserHelper {
             add = "INSERT INTO " + TABLE_USER + " (id, username, email, password) VALUES (" + tempID + ", '" + username + "', '" + email + "', '" + password + "')";
             db.execSQL(add);
             return;
+        }else {
+            add = "INSERT INTO " + TABLE_USER + " (id, username, email, password) VALUES (" + 1 + ", '" + username + "', '" + email + "', '" + password + "')";
+            db.execSQL(add);
         }
 
         cursor.close();

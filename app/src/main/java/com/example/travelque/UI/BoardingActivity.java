@@ -17,8 +17,7 @@ public class BoardingActivity extends AppCompatActivity {
         Button btnLetsGo = findViewById(R.id.btnLetsGo);
 
         btnLetsGo.setOnClickListener(v -> {
-            // Start main app activity
-            Intent intent = new Intent(BoardingActivity.this, NavigationActivity.class);
+            Intent intent = new Intent(BoardingActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         });
