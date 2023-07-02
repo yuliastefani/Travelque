@@ -10,10 +10,10 @@ public class Travel implements Parcelable {
     private String name;
     private String description;
     private String image;
-    private String lang;
-    private String longi;
+    private Double lang;
+    private Double longi;
 
-    public Travel(Integer id, String name, String description, String image, String lang, String longi) {
+    public Travel(Integer id, String name, String description, String image, Double lang, Double longi) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -23,16 +23,12 @@ public class Travel implements Parcelable {
     }
 
     protected Travel(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
+        id = in.readInt();
         name = in.readString();
         description = in.readString();
         image = in.readString();
-        lang = in.readString();
-        longi = in.readString();
+        lang = in.readDouble();
+        longi = in.readDouble();
     }
 
     public static final Creator<Travel> CREATOR = new Creator<Travel>() {
@@ -79,19 +75,19 @@ public class Travel implements Parcelable {
         this.image = image;
     }
 
-    public String getLang() {
+    public Double getLang() {
         return lang;
     }
 
-    public void setLang(String lang) {
+    public void setLang(Double lang) {
         this.lang = lang;
     }
 
-    public String getLongi() {
+    public Double getLongi() {
         return longi;
     }
 
-    public void setLongi(String longi) {
+    public void setLongi(Double longi) {
         this.longi = longi;
     }
 
@@ -102,11 +98,11 @@ public class Travel implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(description);
         dest.writeString(image);
-        dest.writeString(lang);
-        dest.writeString(longi);
-        dest.writeInt(id);
+        dest.writeDouble(lang);
+        dest.writeDouble(longi);
     }
 }

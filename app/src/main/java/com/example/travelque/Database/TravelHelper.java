@@ -63,7 +63,8 @@ public class TravelHelper {
         Cursor cursor = db.rawQuery(view, null);
 
         Travel travel;
-        String tempName, tempDescription, tempImage, tempLang, tempLongi;
+        String tempName, tempDescription, tempImage;
+        Double tempLang, tempLongi;
         Integer tempID;
 
         if (cursor.getCount() > 0) {
@@ -72,8 +73,8 @@ public class TravelHelper {
                 tempName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 tempDescription = cursor.getString(cursor.getColumnIndexOrThrow("description"));
                 tempImage = cursor.getString(cursor.getColumnIndexOrThrow("image"));
-                tempLang = cursor.getString(cursor.getColumnIndexOrThrow("lang"));
-                tempLongi = cursor.getString(cursor.getColumnIndexOrThrow("long"));
+                tempLang = cursor.getDouble(cursor.getColumnIndexOrThrow("lang"));
+                tempLongi = cursor.getDouble(cursor.getColumnIndexOrThrow("long"));
 
                 travel = new Travel(tempID, tempName, tempDescription, tempImage, tempLang, tempLongi);
                 vTravel.add(travel);

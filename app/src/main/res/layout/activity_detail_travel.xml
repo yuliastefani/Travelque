@@ -1,10 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
     tools:context=".UI.travel.DetailTravelActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/travelImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-16dp"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"/>
+
+        <TextView
+            android:id="@+id/travelName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/travelImage"
+            android:textAlignment="center"
+            android:textColor="@color/salmon_4"
+            android:textStyle="bold"
+            android:textSize="35dp"/>
+
+        <TextView
+            android:id="@+id/travelDescriptionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:layout_below="@id/travelName"
+            android:text="Description"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/salmon_3"/>
+
+        <TextView
+            android:id="@+id/travelDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/travelDescriptionTitle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/salmon_4"
+            android:textSize="15dp"/>
+
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/travelMap"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@+id/travelDescription"
+            android:layout_marginTop="25dp"
+            android:layout_marginHorizontal="20dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@id/travelImage"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+    </RelativeLayout>
+
+</ScrollView>
