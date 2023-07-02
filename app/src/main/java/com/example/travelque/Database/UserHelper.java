@@ -93,9 +93,4 @@ public class UserHelper {
         db.execSQL(query);
     }
 
-    public void deleteUser(int id) {
-        String query = "DELETE FROM " + TABLE_USER + " WHERE id = " + id;
-        db.execSQL(query);
-    }
-
 }

@@ -1,27 +1,31 @@
-package com.example.travelque.UI.profile;
+package com.example.travelque.UI.list;
 
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travelque.Database.ListHelper;
+import com.example.travelque.Models.List;
 import com.example.travelque.R;
-import com.example.travelque.databinding.FragmentProfileBinding;
 
-public class ProfileFragment extends Fragment {
+import java.util.Vector;
+
+public class ListFragment extends Fragment {
+
+    ListHelper listHelper;
+    RecyclerView listRV;
+    Vector<List> vList;
+    ListAdapter listAdapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
     }
 
@@ -33,8 +37,8 @@ public class ProfileFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View profileView = inflater.inflate(R.layout.fragment_profile, container, false);
-        return profileView;
+        View listView = inflater.inflate(R.layout.fragment_list, container, false);
+        return listView;
     }
 
     @Override
