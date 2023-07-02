@@ -3,6 +3,7 @@ package com.example.travelque.UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,6 +40,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (userHelper.checkAccount(etLgUsername.getText().toString(), etLgPassword.getText().toString())) {
                     Intent mainIntent = new Intent(LoginActivity.this, NavigationActivity.class);
                     startActivity(mainIntent);
+                    SharedPreferences sharedUsername = getSharedPreferences("username",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedUsername.edit();
+                    editor.putString("username",etLgUsername.getText().toString());
+                    editor.commit();
                     finish();
                 }
                 else {

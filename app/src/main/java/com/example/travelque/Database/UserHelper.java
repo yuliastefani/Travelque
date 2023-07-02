@@ -31,9 +31,8 @@ public class UserHelper {
         String add = "Select id from " + TABLE_USER;
         Cursor cursor = db.rawQuery(add, null);
 
-        if (cursor.getCount() == 0 && cursor.moveToLast()) {
-            int tempID = 0;
-            tempID = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+        if (cursor != null && cursor.moveToLast()) {
+            int tempID = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
             tempID++;
             add = "INSERT INTO " + TABLE_USER + " (id, username, email, password) VALUES (" + tempID + ", '" + username + "', '" + email + "', '" + password + "')";
             db.execSQL(add);
@@ -70,21 +69,27 @@ public class UserHelper {
         }
     }
 
-    public User fetchUser(int userID) {
-        String query = "SELECT * FROM " + TABLE_USER + " WHERE id = " + userID;
-        Cursor cursor = db.rawQuery(query, null);
+    public User fetchUser(String username){
+        String view = "Select * from " + TABLE_USER + " where username = ? limit 1";
 
-        User user = null;
+        Cursor cursor = db.rawQuery(view,new String[]{username});
 
-        if (cursor.moveToFirst()) {
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-            String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
-            String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
-            String password = cursor.getString(cursor.getColumnIndexOrThrow("password"));
-            user = new User(id, username, email, password);
+        cursor.moveToFirst();
+
+        if(cursor.getCount() <= 0){
+            return null;
         }
 
-        cursor.close();
+        User user;
+        String tempUsername, tempEmail, tempPassword;
+        Integer tempID;
+
+        tempID = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+        tempUsername = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+        tempEmail = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+        tempPassword = cursor.getString(cursor.getColumnIndexOrThrow("password"));
+        user = new User(tempID, tempUsername, tempEmail, tempPassword);
+
         return user;
     }
 

@@ -2,14 +2,20 @@ package com.example.travelque.UI.travel;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.travelque.Database.ListHelper;
+import com.example.travelque.Database.UserHelper;
 import com.example.travelque.Models.Travel;
+import com.example.travelque.Models.User;
 import com.example.travelque.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,8 +34,9 @@ public class DetailTravelActivity extends AppCompatActivity {
     MapView travelMap;
     GoogleMap googleMap;
     Marker travelMarker;
-    AlertDialog.Builder addDialog;
+    AlertDialog.Builder addDialog, addNotes;
     Double travelLat, travelLong;
+    UserHelper userHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,29 +62,74 @@ public class DetailTravelActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle(travel.getName());
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
+
+            travelMap.onCreate(savedInstanceState);
+            travelMap.getMapAsync(googleMap -> {
+                this.googleMap = googleMap;
+                travelMarker = googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(travelLat, travelLong))
+                        .title(travelName.getText().toString()));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(travelLat, travelLong), 20f));
+            });
+
+            fabAdd.setOnClickListener(v -> {
+                addDialog = new AlertDialog.Builder(this);
+                addDialog.setTitle("Add New Travel");
+                addDialog.setMessage("Are you sure want to add this travel to your list?");
+                addDialog.setPositiveButton("Yes", (dialog, which) -> {
+                    addNotes = new AlertDialog.Builder(this);
+                    addNotes.setTitle("Add Notes");
+                    addNotes.setMessage("Do you want to add notes?");
+                    addNotes.setPositiveButton("Yes", (dialog1, which1) -> {
+                        EditText notes = new EditText(this);
+                        notes.setHint("Add your notes here");
+                        addNotes.setView(notes);
+                        addNotes.setPositiveButton("Submit", (dialog2, which2) -> {
+                            String note = notes.getText().toString();
+                            SharedPreferences sharedUsername = getSharedPreferences("username", MODE_PRIVATE);
+                            String username = sharedUsername.getString("username", "");
+
+                            userHelper = new UserHelper(this);
+                            userHelper.open();
+                            User user = userHelper.fetchUser(username);
+                            userHelper.close();
+                            ListHelper listHelper = new ListHelper(this);
+                            listHelper.open();
+                            listHelper.addList(note, user.getId(), travel.getId());
+                            Toast.makeText(this, "Notes Submitted", Toast.LENGTH_SHORT).show();
+                        });
+                    });
+                    addNotes.setNegativeButton("No", (dialog1, which1) -> {
+                        dialog1.cancel();
+                        SharedPreferences sharedUsername = getSharedPreferences("username", MODE_PRIVATE);
+                        String username = sharedUsername.getString("username", "");
+                        Log.d("username coba", username);
+
+                        userHelper = new UserHelper(this);
+                        userHelper.open();
+                        User user = userHelper.fetchUser(username);
+                        userHelper.close();
+                        Log.d("user", String.valueOf(user.getId()));
+
+
+                        ListHelper listHelper = new ListHelper(this);
+                        listHelper.open();
+
+                        listHelper.addList("-", user.getId(), travel.getId());
+//                        listHelper.addList("-", 1, travel.getId());
+                        listHelper.close();
+                        Toast.makeText(this, "Travel Added", Toast.LENGTH_SHORT).show();
+                    });
+                    addNotes.show();
+                });
+                addDialog.setNegativeButton("No", (dialog, which) -> {
+                    dialog.cancel();
+                });
+                addDialog.show();
+            });
         }
 
-        travelMap.onCreate(savedInstanceState);
-        travelMap.getMapAsync(googleMap -> {
-            this.googleMap = googleMap;
-            travelMarker = googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(travelLat, travelLong))
-                    .title(travelName.getText().toString()));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(travelLat, travelLong), 20f));
-        });
 
-        fabAdd.setOnClickListener(v -> {
-            addDialog = new AlertDialog.Builder(this);
-            addDialog.setTitle("Add New Travel");
-            addDialog.setMessage("Are you sure want to add this travel to your list?");
-            addDialog.setPositiveButton("Yes", (dialog, which) -> {
-
-            });
-            addDialog.setNegativeButton("No", (dialog, which) -> {
-                dialog.cancel();
-            });
-            addDialog.show();
-        });
 
     }
 

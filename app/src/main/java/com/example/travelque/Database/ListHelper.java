@@ -29,19 +29,18 @@ public class ListHelper {
         databaseHelper.close();
     }
 
-    public void addList(String name, String description, String image, String lang, String longi) {
+    public void addList(String notes, Integer userId, Integer travelId) {
         String add = "SELECT * FROM " + TABLE_LIST;
         Cursor cursor = db.rawQuery(add, null);
 
-        if (cursor.getCount() == 0 && cursor.moveToLast()) {
-            int tempID = 0;
-            tempID = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+        if (cursor != null && cursor.moveToLast()) {
+            int tempID = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
             tempID++;
-            add = "INSERT INTO " + TABLE_LIST + " (id, name, description, image, lang, long) VALUES (" + tempID + ", '" + name + "', '" + description + "', '" + image + "', '" + lang + "', '" + longi + "')";
+            add = "INSERT INTO " + TABLE_LIST + " (id, notes, user_id, travel_id) VALUES (" + tempID + ", '" + notes + "', '" + userId + "', '" + travelId + "')";
             db.execSQL(add);
             return;
         }else {
-            add = "INSERT INTO " + TABLE_LIST + " (id, name, description, image, lang, long) VALUES (" + 1 + ", '" + name + "', '" + description + "', '" + image + "', '" + lang + "', '" + longi + "')";
+            add = "INSERT INTO " + TABLE_LIST + " (id, notes, user_id, travel_id) VALUES (" + 1 + ", '" + notes + "', '" + userId + "', '" + travelId + "')";
             db.execSQL(add);
         }
     }
