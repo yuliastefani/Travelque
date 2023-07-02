@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelque.Database.ListHelper;
@@ -26,7 +27,15 @@ public class ListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        listHelper = new ListHelper(getContext());
+        listHelper.open();
+        vList = listHelper.viewList();
+        listHelper.close();
 
+        listRV = view.findViewById(R.id.listRV);
+        listAdapter = new ListAdapter(getContext(), vList);
+        listRV.setAdapter(listAdapter);
+        listRV.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override

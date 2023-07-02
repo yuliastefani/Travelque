@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +48,13 @@ public class DetailTravelActivity extends AppCompatActivity {
         travelMap = findViewById(R.id.travelMap);
         fabAdd = findViewById(R.id.fabAdd);
 
+        SharedPreferences sharedUsername = getSharedPreferences("username", MODE_PRIVATE);
+        String username = sharedUsername.getString("username", "");
+
+        userHelper = new UserHelper(this);
+        userHelper.open();
+        User user = userHelper.fetchUser(username);
+        userHelper.close();
 
         if (getIntent().getExtras() != null) {
             Travel travel = getIntent().getParcelableExtra(detTravel, Travel.class);
@@ -86,13 +92,6 @@ public class DetailTravelActivity extends AppCompatActivity {
                         addNotes.setView(notes);
                         addNotes.setPositiveButton("Submit", (dialog2, which2) -> {
                             String note = notes.getText().toString();
-                            SharedPreferences sharedUsername = getSharedPreferences("username", MODE_PRIVATE);
-                            String username = sharedUsername.getString("username", "");
-
-                            userHelper = new UserHelper(this);
-                            userHelper.open();
-                            User user = userHelper.fetchUser(username);
-                            userHelper.close();
                             ListHelper listHelper = new ListHelper(this);
                             listHelper.open();
                             listHelper.addList(note, user.getId(), travel.getId());
@@ -101,36 +100,20 @@ public class DetailTravelActivity extends AppCompatActivity {
                     });
                     addNotes.setNegativeButton("No", (dialog1, which1) -> {
                         dialog1.cancel();
-                        SharedPreferences sharedUsername = getSharedPreferences("username", MODE_PRIVATE);
-                        String username = sharedUsername.getString("username", "");
-                        Log.d("username coba", username);
-
-                        userHelper = new UserHelper(this);
-                        userHelper.open();
-                        User user = userHelper.fetchUser(username);
-                        userHelper.close();
-                        Log.d("user", String.valueOf(user.getId()));
-
 
                         ListHelper listHelper = new ListHelper(this);
                         listHelper.open();
 
                         listHelper.addList("-", user.getId(), travel.getId());
-//                        listHelper.addList("-", 1, travel.getId());
                         listHelper.close();
                         Toast.makeText(this, "Travel Added", Toast.LENGTH_SHORT).show();
                     });
                     addNotes.show();
                 });
-                addDialog.setNegativeButton("No", (dialog, which) -> {
-                    dialog.cancel();
-                });
+                addDialog.setNegativeButton("No", (dialog, which) -> dialog.cancel());
                 addDialog.show();
             });
         }
-
-
-
     }
 
     @Override

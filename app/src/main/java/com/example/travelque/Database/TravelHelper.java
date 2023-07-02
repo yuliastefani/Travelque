@@ -91,4 +91,30 @@ public class TravelHelper {
 
         return cursor.getCount() > 0;
     }
+
+    public Travel fetchTravel(Integer travelID) {
+        String fetch = "SELECT * FROM " + TABLE_TRAVEL + " WHERE id = ?";
+        Cursor cursor = db.rawQuery(fetch, new String[]{String.valueOf(travelID)});
+
+        Travel travel;
+        String tempName, tempDescription, tempImage;
+        Double tempLang, tempLongi;
+        Integer tempID;
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            tempID = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+            tempName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            tempDescription = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+            tempImage = cursor.getString(cursor.getColumnIndexOrThrow("image"));
+            tempLang = cursor.getDouble(cursor.getColumnIndexOrThrow("lang"));
+            tempLongi = cursor.getDouble(cursor.getColumnIndexOrThrow("long"));
+
+            travel = new Travel(tempID, tempName, tempDescription, tempImage, tempLang, tempLongi);
+            return travel;
+        }
+
+        cursor.close();
+        return null;
+    }
 }

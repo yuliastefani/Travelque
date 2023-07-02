@@ -53,7 +53,7 @@ public class TravelAdapter  extends RecyclerView.Adapter<TravelAdapter.TravelVie
         return vTravel.size();
     }
 
-    public class TravelViewHolder extends RecyclerView.ViewHolder {
+    public static class TravelViewHolder extends RecyclerView.ViewHolder {
 
         TextView travelName;
         ImageView travelImage;
