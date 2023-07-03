@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.travelque.Database.ListHelper;
 import com.example.travelque.Database.TravelHelper;
 import com.example.travelque.Models.List;
 import com.example.travelque.R;
@@ -43,8 +44,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         travelHelper = new TravelHelper(listContent);
         travelHelper.open();
         holder.travelName.setText(travelHelper.fetchTravel(list.getTravelId()).getName());
-        holder.listId.setText(" " + String.valueOf(list.getId()));
+
+        Integer priority = position % 3 + 1;
+        holder.listId.setText(" " + String.valueOf(priority));
         Glide.with(listContent).load(travelHelper.fetchTravel(list.getTravelId()).getImage()).into(holder.travelImage);
+        travelHelper.close();
 
     }
 
@@ -64,5 +68,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
             listId = itemView.findViewById(R.id.listId);
             listCV = itemView.findViewById(R.id.listCV);
         }
+    }
+
+    public void deleteList(int position){
+        ListHelper listHelper = new ListHelper(listContent);
+        listHelper.open();
+        listHelper.deleteList(vList.get(position).getId());
+        listHelper.close();
+
+        vList.remove(position);
+        notifyItemRemoved(position);
     }
 }

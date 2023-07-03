@@ -1,6 +1,8 @@
 package com.example.travelque.UI.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,21 +92,29 @@ public class HomeFragment extends Fragment {
         vTravel = travelHelper.viewTravel();
         travelHelper.close();
 
-        allList = view.findViewById(R.id.allList);
-        listRV = view.findViewById(R.id.listRV);
+        travelAdapter = new TravelAdapter(getContext(), vTravel);
+        travelRV.setAdapter(travelAdapter);
 
+        allList = view.findViewById(R.id.allList);
         listHelper = new ListHelper(getContext());
         listHelper.open();
         vList = listHelper.viewList();
         listHelper.close();
 
-        travelAdapter = new TravelAdapter(getContext(), vTravel);
-        travelRV.setAdapter(travelAdapter);
-        travelRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
+        listRV = view.findViewById(R.id.listRV);
         listAdapter = new ListAdapter(getContext(), vList);
         listRV.setAdapter(listAdapter);
-        listRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+        SharedPreferences layoutPref = requireContext().getSharedPreferences("layout", Context.MODE_PRIVATE);
+        int selectedId = layoutPref.getInt("layoutOption", R.id.radioButtonHorizontal);
+        if (selectedId == R.id.radioButtonHorizontal) {
+            travelRV.setLayoutManager(new GridLayoutManager(getContext(), 2, LinearLayoutManager.HORIZONTAL, false));
+            listRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        } else {
+            travelRV.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            listRV.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        }
     }
 
     @Override

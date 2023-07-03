@@ -1,23 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.profile.ProfileFragment">
+    android:orientation="vertical"
+    android:gravity="center">
 
     <TextView
-        android:id="@+id/text_profile"
-        android:layout_width="match_parent"
+        android:id="@+id/tvSelectHome"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
+        android:text="Select Home Layout"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <RadioGroup
+        android:id="@+id/radioGroupLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvSelectHome"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButtonHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:text="Linear Layout" />
+
+
+        <RadioButton
+            android:id="@+id/radioButtonVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grid Layout" />
+
+    </RadioGroup>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/radioGroupLayout"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/salmon_4" />
+
+    <TextView
+        android:id="@+id/tvSelectTravel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Travel Layout"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/divider"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <RadioGroup
+        android:id="@+id/radioGroupTravelLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvSelectTravel"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbHorizontalTravel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:text="Linear Layout" />
+
+
+        <RadioButton
+            android:id="@+id/rbGridTravel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grid Layout" />
+
+    </RadioGroup>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/radioGroupTravelLayout"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/salmon_4" />
+
+    <TextView
+        android:id="@+id/tvSelectList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select List Layout"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/divider2"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <RadioGroup
+        android:id="@+id/radioGroupListLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvSelectList"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbHorizontalList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:text="Linear Layout" />
+
+
+        <RadioButton
+            android:id="@+id/rbGridList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grid Layout" />
+
+    </RadioGroup>
+
+</RelativeLayout>

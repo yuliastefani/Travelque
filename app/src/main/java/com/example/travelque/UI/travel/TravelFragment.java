@@ -1,5 +1,7 @@
 package com.example.travelque.UI.travel;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelque.Database.TravelHelper;
@@ -42,7 +45,15 @@ public class TravelFragment extends Fragment {
         travelRV = view.findViewById(R.id.travelRV);
         travelAdapter = new TravelAdapter(getContext(), vTravel);
         travelRV.setAdapter(travelAdapter);
-        travelRV.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
+        SharedPreferences layoutPref = requireContext().getSharedPreferences("layout", Context.MODE_PRIVATE);
+        int selectedTravelId = layoutPref.getInt("travelLayoutOption", R.id.rbHorizontalTravel);
+        if (selectedTravelId == R.id.rbHorizontalTravel)
+            travelRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        else{
+            travelRV.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        }
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

@@ -32,7 +32,6 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/allList"
                 android:padding="10dp"
-                android:scrollbars="horizontal"
                 tools:listitem="@layout/list_item" />
 
             <TextView

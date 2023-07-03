@@ -1,5 +1,7 @@
 package com.example.travelque.UI.list;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,7 +39,17 @@ public class ListFragment extends Fragment {
         listRV = view.findViewById(R.id.listRV);
         listAdapter = new ListAdapter(getContext(), vList);
         listRV.setAdapter(listAdapter);
-        listRV.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        SharedPreferences layoutPref = requireContext().getSharedPreferences("layout", Context.MODE_PRIVATE);
+        int selectedListId = layoutPref.getInt("listLayoutOption", R.id.rbHorizontalList);
+        if (selectedListId == R.id.rbHorizontalList)
+            listRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        else{
+            listRV.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        }
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeListCard(listAdapter));
+        itemTouchHelper.attachToRecyclerView(listRV);
     }
 
     @Override
