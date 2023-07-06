@@ -45,9 +45,9 @@ public class ListHelper {
         }
     }
 
-    public Vector<List> viewList() {
+    public Vector<List> viewList(Integer userId) {
         Vector<List> vList = new Vector<>();
-        String view = "SELECT * FROM " + TABLE_LIST;
+        String view = "SELECT * FROM " + TABLE_LIST + " WHERE user_id = " + userId;
         Cursor cursor = db.rawQuery(view, null);
 
         List list;

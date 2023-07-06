@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelque.Database.ListHelper;
+import com.example.travelque.Database.UserHelper;
 import com.example.travelque.Models.List;
+import com.example.travelque.Models.User;
 import com.example.travelque.R;
 
 import java.util.Vector;
@@ -27,13 +29,22 @@ public class ListFragment extends Fragment {
     RecyclerView listRV;
     Vector<List> vList;
     ListAdapter listAdapter;
+    UserHelper userHelper;
+    User user;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences userPref = getContext().getSharedPreferences("username", Context.MODE_PRIVATE);
+        String username = userPref.getString("username", "");
+        userHelper = new UserHelper(getContext());
+        userHelper.open();
+        user = userHelper.fetchUser(username);
+        userHelper.close();
+
         listHelper = new ListHelper(getContext());
         listHelper.open();
-        vList = listHelper.viewList();
+        vList = listHelper.viewList(user.getId());
         listHelper.close();
 
         listRV = view.findViewById(R.id.listRV);

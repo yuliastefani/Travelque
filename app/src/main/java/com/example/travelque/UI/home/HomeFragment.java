@@ -22,8 +22,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.travelque.Database.ListHelper;
 import com.example.travelque.Database.TravelHelper;
+import com.example.travelque.Database.UserHelper;
 import com.example.travelque.Models.List;
 import com.example.travelque.Models.Travel;
+import com.example.travelque.Models.User;
 import com.example.travelque.R;
 import com.example.travelque.UI.list.ListAdapter;
 import com.example.travelque.UI.list.ListFragment;
@@ -95,10 +97,17 @@ public class HomeFragment extends Fragment {
         travelAdapter = new TravelAdapter(getContext(), vTravel);
         travelRV.setAdapter(travelAdapter);
 
+        SharedPreferences userPref = getContext().getSharedPreferences("username", Context.MODE_PRIVATE);
+        String username = userPref.getString("username", "");
+        UserHelper userHelper = new UserHelper(getContext());
+        userHelper.open();
+        User user = userHelper.fetchUser(username);
+        userHelper.close();
+
         allList = view.findViewById(R.id.allList);
         listHelper = new ListHelper(getContext());
         listHelper.open();
-        vList = listHelper.viewList();
+        vList = listHelper.viewList(user.getId());
         listHelper.close();
 
         listRV = view.findViewById(R.id.listRV);

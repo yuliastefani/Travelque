@@ -57,33 +57,26 @@ public class NavigationActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
+        if (navController.getCurrentDestination().getId() == R.id.nav_logout) {
+            builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to logout?");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                SharedPreferences sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                Intent loginIntent = new Intent(this, LoginActivity.class);
+                startActivity(loginIntent);
+                finish();
+            });
+            builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    public boolean onOptionsItemSelected (MenuItem item){
-        switch (item.getItemId()) {
-            case R.id.nav_logout:
-                Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show();
-                builder = new AlertDialog.Builder(this);
-                builder.setMessage("Are you sure you want to logout?");
-                builder.setCancelable(true);
-                builder.setPositiveButton("Yes", (dialog, which) -> {
-                    SharedPreferences sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.clear();
-                    editor.apply();
-                    Intent intent = new Intent(NavigationActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                });
-                builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 }
